@@ -15,19 +15,13 @@ import java.util.LinkedList;
 public class UserCredentials implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String name;
-    private String email;
+    private String username;
     private String password;
     private boolean isValid = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new LinkedList<>();
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override

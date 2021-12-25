@@ -49,8 +49,13 @@ public class CurrencyController {
         return currencyService.latestData(symbol);
     }
 
+    @GetMapping("/all-latest")
+    public String getAllLatest() throws IOException {
+        return currencyService.getAllLatestData();
+    }
+
     @GetMapping("/timeseries")
-    public String getLatest(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate, @RequestParam String symbol) throws IOException {
+    public String getTimeSeries(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate, @RequestParam String symbol) throws IOException {
         return currencyService.historicalData(startDate, endDate,symbol);
     }
 

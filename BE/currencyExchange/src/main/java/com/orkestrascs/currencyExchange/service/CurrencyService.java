@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class CurrencyService {
@@ -35,10 +36,12 @@ public class CurrencyService {
 
     @Transactional
     public Currency createCurrency(Currency currency){
+        currency.setSymbol(currency.getSymbol().toUpperCase(Locale.ROOT));
         return currencyRepository.save(currency);
     }
     @Transactional
     public Currency updateCurrency(Currency currency){
+        currency.setSymbol(currency.getSymbol().toUpperCase(Locale.ROOT));
         return currencyRepository.save(currency);
     }
 
@@ -71,6 +74,11 @@ public class CurrencyService {
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
             return response.body().string();
         }
+    }
+
+    public String getAllLatestData() throws IOException {
+        String symbols = String.join(",",currencyRepository.getAllSymbols());
+       return latestData(symbols);
     }
 
 }

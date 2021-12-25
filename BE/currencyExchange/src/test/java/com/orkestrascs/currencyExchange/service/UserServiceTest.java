@@ -20,8 +20,7 @@ class UserServiceTest {
 
         UserCredentials userCredentials = new UserCredentials();
         userCredentials.setPassword("pass");
-        userCredentials.setEmail("email");
-        userCredentials.setName("name");
+        userCredentials.setUsername("username");
         userCredentials.setId(0);
 
         when(passwordEncoder.encode(anyString())).thenReturn("secretPassword");
@@ -31,8 +30,8 @@ class UserServiceTest {
                 new UserService(userCredentialsRepository,passwordEncoder);
         UserCredentials expected = (UserCredentials) userService.createUser(userCredentials);
 
-        assertEquals("email", expected.getEmail());
-        assertEquals("email", expected.getUsername());
+        assertEquals("username", expected.getUsername());
+        assertEquals("username", expected.getUsername());
         assertEquals(0, expected.getId());
         verify(passwordEncoder).encode("pass");
         verify(userCredentialsRepository).save(any());

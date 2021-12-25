@@ -7,13 +7,12 @@ create table currency(
 
 create table user_credentials(
      id bigint not null unique ,
-     email varchar(255) not null unique,
-     name varchar(255) not null,
+     username varchar(255) not null unique,
      password varchar(255) not null,
      is_valid boolean,
      constraint user_credentials_pkey primary key (id)
 );
-CREATE SEQUENCE hibernate_sequence START 1;
+CREATE SEQUENCE hibernate_sequence START 3;
 
 insert into currency (id, symbol, description) values (1, 'CAD', 'Canadian Dollar');
 insert into currency (id, symbol, description) values (2, 'NGN', 'Nigerian Naira');

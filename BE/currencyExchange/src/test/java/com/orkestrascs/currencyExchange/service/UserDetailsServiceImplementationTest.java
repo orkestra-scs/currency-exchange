@@ -19,20 +19,19 @@ class UserDetailsServiceImplementationTest {
 
         UserCredentials userCredentials = new UserCredentials();
         userCredentials.setPassword("pass");
-        userCredentials.setEmail("email");
-        userCredentials.setName("name");
+        userCredentials.setUsername("username");
         userCredentials.setId(0);
 
-        when(userCredentialsRepository.findByEmail("email")).thenReturn(userCredentials);
+        when(userCredentialsRepository.findByUsername("username")).thenReturn(userCredentials);
 
         UserDetailsServiceImplementation userDetailsServiceImplementation =
                 new UserDetailsServiceImplementation(userCredentialsRepository);
         UserCredentials expected = (UserCredentials) userDetailsServiceImplementation.loadUserByUsername("email");
 
-        assertEquals("email", expected.getEmail());
-        assertEquals("email", expected.getUsername());
+        assertEquals("username", expected.getUsername());
+        assertEquals("username", expected.getUsername());
         assertEquals(0, expected.getId());
-        verify(userCredentialsRepository).findByEmail("email");
+        verify(userCredentialsRepository).findByUsername("username");
     }
 
     @Test
@@ -42,8 +41,7 @@ class UserDetailsServiceImplementationTest {
         UsernameNotFoundException exception = Assertions.assertThrows(UsernameNotFoundException.class, () -> {
             UserCredentials userCredentials = new UserCredentials();
             userCredentials.setPassword("pass");
-            userCredentials.setEmail("email");
-            userCredentials.setName("name");
+            userCredentials.setUsername("username");
             userCredentials.setId(0);
 
             UserDetailsServiceImplementation userDetailsServiceImplementation =
