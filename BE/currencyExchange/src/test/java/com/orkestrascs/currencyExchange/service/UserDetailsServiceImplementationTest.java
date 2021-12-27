@@ -26,7 +26,7 @@ class UserDetailsServiceImplementationTest {
 
         UserDetailsServiceImplementation userDetailsServiceImplementation =
                 new UserDetailsServiceImplementation(userCredentialsRepository);
-        UserCredentials expected = (UserCredentials) userDetailsServiceImplementation.loadUserByUsername("email");
+        UserCredentials expected = (UserCredentials) userDetailsServiceImplementation.loadUserByUsername("username");
 
         assertEquals("username", expected.getUsername());
         assertEquals("username", expected.getUsername());
@@ -46,9 +46,9 @@ class UserDetailsServiceImplementationTest {
 
             UserDetailsServiceImplementation userDetailsServiceImplementation =
                     new UserDetailsServiceImplementation(userCredentialsRepository);
-            userDetailsServiceImplementation.loadUserByUsername("email");
+            userDetailsServiceImplementation.loadUserByUsername("username");
         });
 
-        Assertions.assertEquals("User 'email' not found", exception.getMessage());
+        Assertions.assertEquals("User 'username' not found", exception.getMessage());
     }
 }

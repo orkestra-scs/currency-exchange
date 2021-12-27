@@ -1,9 +1,8 @@
 package com.orkestrascs.currencyExchange.service;
 
 import com.orkestrascs.currencyExchange.data.CurrencyRepository;
+import com.orkestrascs.currencyExchange.model.Currency;
 import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.Test;
@@ -12,11 +11,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 class CurrencyServiceTest {
 
@@ -25,9 +21,13 @@ class CurrencyServiceTest {
         CurrencyRepository repository = mock(CurrencyRepository.class);
 
         CurrencyService service = new CurrencyService("url","key","CCY",repository);
-        service.createCurrency(any());
+        Currency newCurrency = new Currency();
+        newCurrency.setSymbol("TST");
+        newCurrency.setDescription("test");
 
-        verify(repository).save(any());
+        service.createCurrency(newCurrency);
+
+        verify(repository).save(newCurrency);
     }
 
     @Test
@@ -35,9 +35,12 @@ class CurrencyServiceTest {
         CurrencyRepository repository = mock(CurrencyRepository.class);
 
         CurrencyService service = new CurrencyService("url","key","CCY",repository);
-        service.updateCurrency(any());
+        Currency newCurrency = new Currency();
+        newCurrency.setSymbol("TST");
+        newCurrency.setDescription("test");
+        service.updateCurrency(newCurrency);
 
-        verify(repository).save(any());
+        verify(repository).save(newCurrency);
     }
 
     @Test
@@ -57,7 +60,7 @@ class CurrencyServiceTest {
         CurrencyService service = new CurrencyService("url","key","CCY",repository);
         service.deleteCurrency("CCY");
 
-        verify(repository).deleteById("CCY");
+        verify(repository).deleteCurrencyBySymbol("CCY");
     }
 
     @Test

@@ -26,11 +26,6 @@ public class UserController {
         return userService.createUser(userCredentials).getUsername();
     }
 
-    @GetMapping("/token")
-    public Map<String,String> token(HttpSession session) {
-        return Collections.singletonMap("token", session.getId());
-    }
-
     @GetMapping("/login")
     public String login(@AuthenticationPrincipal UserCredentials credentials){
         return credentials.getUsername();
