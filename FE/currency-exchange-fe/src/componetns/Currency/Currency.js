@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { addCurrency,getCurrencies,deleteCurrency, updateCurrency } from "../../services/WebService";
-import { Form, Input, Button,Table, Space, Popconfirm, Modal, Layout, Row, Col,Typography } from 'antd';
+import { Form, Input, Button,Table, Space, Popconfirm, Modal, Layout, Row, Col,Typography, message } from 'antd';
 import NavBar from "../Navigation/NavBar";
 
 const { Title } = Typography;
@@ -20,23 +20,29 @@ export default function CurrencyScreen(){
 
     const handleAddCurrency = () => {
         addCurrency({symbol,description})
-        .then((response) => {
-            // Add feedback like toast
+        .then(() => {
+            message.success("Created "+ symbol);
             setSymbol('');
             setDescription('');
             handleGetCurrencies();
         })
-        .catch((err) => console.log("error: " +err))
+        .catch((err) => {
+            console.log("error: " +err);
+            message.error("Failed to create "+ symbol);
+        })
     }
 
     const handleUpdateCurrency = () => {
         updateCurrency({id: idEdit, symbol:symbolEdit,description:descriptionEdit})
-        .then((response) => {
-            // Add feedback like toast
+        .then(() => {
+            message.success("Updated "+ symbolEdit);
             handleGetCurrencies();
             handleCancelEditModal();
         })
-        .catch((err) => console.log("error: " +err))
+        .catch((err) => {
+            console.log("error: " +err);
+            message.error("Failed to update "+ symbolEdit);
+        })
     }
 
     const handleGetCurrencies = () => {

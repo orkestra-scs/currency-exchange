@@ -1,65 +1,70 @@
-# currency-exchange
+# Getting Started with Create React App
 
-This assignment is to create a simple web page in which users can register, add the currency of their choice and monitor the rate of selected currencies against USD. 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-> You can use any public API of your choice to load the rates as long as it includes current rates and historical rates
-> E.g. https://exchangeratesapi.io/documentation/
+## Available Scripts
 
-## Technology Stack
-* Front-End: React JS
-* Back-End: Spring Boot or Django
-* Database: PostgreSQL
+In the project directory, you can run:
 
-### Front-End
-The front-end application should include the following pages:
-* Register
-    * Sign up with username & password & confirm password
-    * password validation: minimum 8 characters & alpha-numeric 
-* login / logout (session handling)
-* Currencies page
-    * View list of currencies that user has added
-    * ability to add, edit or remove currencies
-    * base currency is USD
-* landing page / Dashboard
-    * a way to select different currencies added in previous page
-    * show a chart with daily rates for the past 2-3 weeks
-    * show current rates for all currencies in a separate section
-* Unit tests & E2E tests
-    
-### Back-End
-The back-end application should include the following features:
-* Data models for DB
-* User management
-* Session handling
-* Connection to a public API for exchange rates (e.g. https://exchangeratesapi.io/documentation/)
-* Api endpoints to support FE:
-    * User registration
-    * User login
-    * CRUD for currency
-* Unit tests & E2E tests
+### `npm start`
 
-> Note!
-> 
-> When adding a new currency we should call the public exchange rate API and load the historical rates for the past month
-        
-  
-## Objectives
-The main goal here is to assess your abilities to build a modern app from scratch. In the process of building this simple app you'll:
-* Create a reliable API that supports the FE and links it up with the database
-* Create data models that would be transformed into database tables
-* Link up with a public RESTfull API
-* Build a modern and responsive web application. 
-> Although the focus wouldn't be on building a fancy web app with sophisticated UI design, it is expected to see a decent-looking app. Try to use  Bootstrap to easily incorporate the design aspect into your app
-* Add unit test and E2E test to both apps
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-### Nice to have
-* Unit test for both FE and BE
-* DB migration in the BE
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
+### `npm test`
 
-> ###Important Note!
-> 
-> * It should take you between 2-4 days to implement all features for this project. You can fork this repo and submit your code in your own Github account.
-> * It is fine if you cannot complete all the mentioned features. Focus on delivering as much as you can in the most reliable and scalable way possible.
-> * Try to break the app into different sections and submit the respective code in separate commits.
-> * Your code is expected to be clean, readable and follow industry coding conventions.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

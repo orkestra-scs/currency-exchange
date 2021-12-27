@@ -8,20 +8,19 @@ const { Title } = Typography;
 
 export default function LoginScreen(){
     const [failedAuth, setFailedAuth] = useState(false);
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const history = useHistory();
 
     const handleLogin = () => {
-        login(email,password)
-            .then((response) => {
+        login(username,password)
+            .then(() => {
                 setFailedAuth(false);
                 dispatch(setLogin());
                 history.push('/dash');
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
                 setFailedAuth(true);
             })
     }
@@ -48,11 +47,11 @@ export default function LoginScreen(){
                     </Form.Item>
                     
                     <Form.Item
-                        label="Email"
-                        name="email"
-                        rules={[{ required: true, message: 'Please input your email!' }]}
+                        label="Username"
+                        name="username"
+                        rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <Input value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <Input value={username} onChange={(e) => setUsername(e.target.value)}/>
                     </Form.Item>
 
                     <Form.Item
@@ -64,12 +63,12 @@ export default function LoginScreen(){
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <Button type="primary" htmlType="submit" onClick={handleLogin}>
+                        <Button id={"loginButton"} type="primary" htmlType="submit" onClick={handleLogin}>
                             Submit
                         </Button>
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <Button type="link" onClick={routeToRegister}>Don't have an account?</Button>
+                        <Button id={"registerButton"} type="link" onClick={routeToRegister}>Don't have an account?</Button>
                     </Form.Item>
                 </Form>
             </div>

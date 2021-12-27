@@ -4,15 +4,13 @@ import { register } from '../../services/WebService';
 import { useHistory } from 'react-router-dom';
 const { Title } = Typography;
 export default function RegisterScreen(){
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
 
     const handleRegister = () => {
         register(
-            name,
-            email,
+            username,
             password
         )
             .then(() => {
@@ -40,25 +38,41 @@ export default function RegisterScreen(){
                 >
 
                     <Form.Item
-                        label="Name"
-                        name="name"
-                        rules={[{ required: true, message: 'Please input your name!' }]}
+                        label="Username"
+                        name="username"
+                        rules={[{ required: true, message: 'Please input your username!' }]}
                     >
-                        <Input value={name} onChange={(e) => setName(e.target.value)}/>
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Email"
-                        name="email"
-                        rules={[{ required: true, message: 'Please input your email!' }]}
-                    >
-                        <Input value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <Input value={username} onChange={(e) => setUsername(e.target.value)}/>
                     </Form.Item>
 
                     <Form.Item
                         label="Password"
                         name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
+                        hasFeedback
+                        rules={[
+                            { required: true, message: 'Please input your password!' },
+                            { min: 8, message: 'Password must be minimum 8 characters.' },
+                            { pattern: RegExp(/^[a-z0-9]+$/i), message:'Alphanumeric characters only'}
+                        ]}
+                    >
+                        <Input.Password value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Confirm Password"
+                        name="confirm"
+                        dependencies={['password']}
+                        hasFeedback
+                        rules={[{ required: true, message: 'Please confirm your password!' },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue('password') === value) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                                },
+                            }),
+                        ]}
                     >
                         <Input.Password value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </Form.Item>

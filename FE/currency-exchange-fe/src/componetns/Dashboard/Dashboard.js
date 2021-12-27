@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Select, Layout, Row, Col,Typography } from 'antd';
-import { Line } from '@ant-design/charts';
-import { getCurrencies, getCurrenyLatest,getCurrenyTimeSeries } from "../../services/WebService";
+import {Select, Layout, Row, Col, Typography, Alert} from 'antd';
+import Marquee from "react-fast-marquee";
+import { getCurrencies,getCurrencyTimeSeries,getAllCurrencyLatest } from "../../services/WebService";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import NavBar from '../Navigation/NavBar';
 const { Header, Content } = Layout;
 const { Option } = Select;
@@ -14,26 +15,35 @@ export default function DashboardScreen(){
     const [currencySelected, setCurrencySelected] = useState('');
 
     useEffect(() => {
-        handleGetCurrencies();
+        getCurrencies()
+            .then((response) => {
+                setCurrencies(response.data);
+                getAllCurrencyLatestHelper("", response.data);
+            })
+            .catch((err) => console.log(err))
     }, []);
 
-    const handleGetCurrencies = () => {
-        getCurrencies()
-        .then((response) => {
-            setCurrencies(response.data);
-        })
-        .catch((err) => console.log(err))
+    const getAllCurrencyLatestHelper = (selectedSymbol, currencies) => {
+        getAllCurrencyLatest()
+            .then((data) => {
+                let x = [];
+                currencies.forEach((currency ) => {
+                    x.push({...currency, rate:data.data.rates[currency.symbol]});
+                })
+                setCurrencies(x);
+                if(selectedSymbol && selectedSymbol !== ""){
+                    setCurrencyLatest(data.data.rates[selectedSymbol]);
+                }
+            })
     }
     const handleSelectCurrency = (symbol) => {
         setCurrencySelected(symbol);
-        getCurrenyLatest(symbol)
-            .then((data) => setCurrencyLatest(data.data.rates[symbol]));
-
+        getAllCurrencyLatestHelper(symbol, currencies);
 
         const endDate = new Date();
         let startDate = new Date(); 
         startDate.setDate( startDate.getDate() - 14);
-        getCurrenyTimeSeries(symbol,startDate.toLocaleDateString('en-CA'), endDate.toLocaleDateString('en-CA'))
+        getCurrencyTimeSeries(symbol,startDate.toLocaleDateString('en-CA'), endDate.toLocaleDateString('en-CA'))
             .then((data) => {
                 let x = [];
                 while (startDate <= endDate) {
@@ -44,16 +54,7 @@ export default function DashboardScreen(){
             })
         
     }
-    const chartConfig = {
-        data:currencyData,
-        padding: 'auto',
-        xField: 'date',
-        yField: 'value',
-        xAxis: {
-          tickCount: 5,
-        },
-        smooth: true,
-      };
+
     return(
         <Layout>
             <Header className="header" style={{background: 'inherit'}}> <NavBar/> </Header>
@@ -74,7 +75,7 @@ export default function DashboardScreen(){
                             }
                             onSelect={(e) => handleSelectCurrency(e)}
                         >   
-                            {currencies.map(currency => <Option value={currency.symbol}>{currency.description} : {currency.symbol}</Option>)}
+                            {currencies.map(currency => <Option key={currency.symbol} value={currency.symbol}>{currency.description} : {currency.symbol}</Option>)}
                             
                         </Select>
                     </Col>
@@ -86,13 +87,39 @@ export default function DashboardScreen(){
                                 <Title level={3}>USD/{currencySelected}</Title>
                                 <Text > ({currencyLatest})</Text>
                             </Col>
-                        </Row>  
-                        <Line {...chartConfig} />
+                        </Row>
+                        <ResponsiveContainer width="100%" minHeight="300px">
+                            <LineChart
+                                width={500}
+                                height={300}
+                                data={currencyData}
+                                margin={{
+                                    top: 5,
+                                    right: 30,
+                                    left: 0,
+                                    bottom: 5,
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="date" />
+                                <YAxis />
+                                <Tooltip />
+                                <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
+                            </LineChart>
+                        </ResponsiveContainer>
                     </>
                     :
                     null
                 }
-                
+                <Alert style={{marginTop:'2em'}}
+                    type="info"
+                    message="Live Market Rates"
+                    description={
+                        <Marquee pauseOnHover gradient={false}>
+                            {currencies.map((currency) => <Text>{currency.symbol} => {currency.rate},&nbsp; &nbsp;</Text>)}
+                        </Marquee>
+                    }
+                />
             </Content>
           
         </Layout>

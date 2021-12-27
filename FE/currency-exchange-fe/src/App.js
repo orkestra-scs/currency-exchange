@@ -1,32 +1,36 @@
 import './App.css';
-import { useSelector } from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import LoginScreen from "./componetns/Login/Login";
 import RegisterScreen from './componetns/Register/Register';
 import DashboardScreen from './componetns/Dashboard/Dashboard';
 import CurrencyScreen from './componetns/Currency/Currency';
-import { isLoggedIn } from './services/AuthSlice';
+import {isLoggedIn, store} from './services/AuthSlice';
+import React from "react";
 
 
 function App() {
   
   return (
-    <Router>
-      <Switch>
-        <Route path="/login">
-          <LoginScreen />
-        </Route>
-        <Route path="/register">
-          <RegisterScreen />
-        </Route>
-        <PrivateRoute path="/dash">
-          <DashboardScreen />
-        </PrivateRoute>
-        <PrivateRoute path="/currency">
-          <CurrencyScreen />
-        </PrivateRoute>
-      </Switch>
-    </Router>    
+      <Provider store={store}>
+          <Router>
+              <Switch>
+                  <Redirect exact from="/" to="login" />
+                  <Route path={["/login"]}>
+                      <LoginScreen />
+                  </Route>
+                  <Route path="/register">
+                      <RegisterScreen />
+                  </Route>
+                  <PrivateRoute path="/dash">
+                      <DashboardScreen />
+                  </PrivateRoute>
+                  <PrivateRoute path="/currency">
+                      <CurrencyScreen />
+                  </PrivateRoute>
+              </Switch>
+          </Router>
+      </Provider>
   );
 }
 
