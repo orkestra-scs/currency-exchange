@@ -1,9 +1,9 @@
 import { Menu } from 'antd';
 import { LineChartOutlined, DollarCircleOutlined, LogoutOutlined } from '@ant-design/icons';
-import { logout } from '../../services/WebService';
+import {logout, setSessionId} from '../../services/WebService';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { navSelection, selectMenu } from '../../services/AuthSlice';
+import { navSelection, selectMenu } from '../../services/ExchangeState';
 
 export default function NavBar() {
     const selection = useSelector(navSelection)
@@ -11,11 +11,11 @@ export default function NavBar() {
     const dispatch = useDispatch();
 
     const handleClick = (e) => {
-        console.log('click ', e);
        dispatch(selectMenu(e.key) );
     };
     const handleLogout = () => {
-        logout().then(( ) => {
+        logout('').then(( ) => {
+            setSessionId('');
             history.push('/login');
             dispatch(selectMenu('dash') );
         });

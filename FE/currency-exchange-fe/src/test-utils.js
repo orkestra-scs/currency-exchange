@@ -2,13 +2,13 @@ import React from 'react'
 import { render as rtlRender } from '@testing-library/react'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
-import AuthSlice from "./services/AuthSlice";
+import ExchangeState from "./services/ExchangeState";
 
 function render(
     ui,
     {
         preloadedState,
-        store = configureStore({ reducer: { auth: AuthSlice }, preloadedState }),
+        store = configureStore({ reducer: { exchange: ExchangeState }, preloadedState }),
         ...renderOptions
     } = {}
 ) {

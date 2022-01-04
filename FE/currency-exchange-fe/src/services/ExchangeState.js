@@ -2,30 +2,33 @@ import { createSlice, configureStore } from '@reduxjs/toolkit';
 
 
 export const slice =  createSlice({
-    name: 'authSlice',
+    name: 'exchange',
     initialState: {
       isLoggedIn: false,
       navSelection: 'dash',
+      authSessionId: ''
     },
     reducers: {
-      setLogin: (state) => {
+      setLogin: (state, action) => {
         state.isLoggedIn = true;
+        state.authSessionId = action.payload;
       },
       setLogout: (state) => {
-        state.isLoggedIn = false
+        state.isLoggedIn = false;
+        state.authSessionId = '';
       },
       selectMenu: (state, action) => {
-        state.navSelection = action.payload
+        state.navSelection = action.payload;
       },
     },
 })
 
 export const store = configureStore({
     reducer: {
-      auth: slice.reducer,
+      exchange: slice.reducer,
     },
 })
 export const { setLogin, setLogout, selectMenu } = slice.actions;
-export const isLoggedIn = state => state.auth.isLoggedIn;
-export const navSelection = state => state.auth.navSelection;
+export const isLoggedIn = state => state.exchange.isLoggedIn;
+export const navSelection = state => state.exchange.navSelection;
 export default slice.reducer;

@@ -13,13 +13,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
+import org.springframework.session.web.http.HttpSessionIdResolver;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
 
-@Configuration @EnableWebSecurity @Order(SecurityProperties.BASIC_AUTH_ORDER - 2)
+@Configuration @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImplementation userDetailsServiceImplementation;
 
@@ -41,7 +44,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/register*").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll().and()
                 .authorizeRequests().anyRequest().authenticated().and()
-                .logout().logoutUrl("/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID").and()
+                .logout().and()
                 .cors().configurationSource(configurationSource()).and()
                 .httpBasic().and()
                 .csrf().ignoringAntMatchers("/register*","/currency","/logout")
@@ -51,10 +54,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private CorsConfigurationSource configurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:3000");
-        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
         config.setAllowedMethods(Collections.singletonList("*"));
         config.setAllowedHeaders(Collections.singletonList("*"));
+        config.setExposedHeaders(Collections.singletonList("X-Auth-Token"));
         source.registerCorsConfiguration("/**", config);
         return source;
     }
@@ -64,5 +67,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public HttpSessionIdResolver httpSessionIdResolver() {
+        return HeaderHttpSessionIdResolver.xAuthToken();
+    }
 
 }

@@ -1,16 +1,19 @@
 import axios from "axios";
 
 const baseURL = 'http://localhost:8080'
-axios.defaults.withCredentials = true;
 
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
+
 
 export const login =  (username, password) => {
     return axios.get(baseURL+"/login", {
         headers: {
-            Authorization: 'Basic ' + window.btoa(username + ':' + password)
+            Authorization: 'Basic ' + window.btoa(username + ':' + password),
         }
     });
+}
+export const setSessionId = (sessionId) => {
+    axios.defaults.headers['X-Auth-Token'] = sessionId;
 }
 
 export const logout = () => {

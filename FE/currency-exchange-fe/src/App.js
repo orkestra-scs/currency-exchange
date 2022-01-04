@@ -5,7 +5,7 @@ import LoginScreen from "./componetns/Login/Login";
 import RegisterScreen from './componetns/Register/Register';
 import DashboardScreen from './componetns/Dashboard/Dashboard';
 import CurrencyScreen from './componetns/Currency/Currency';
-import {isLoggedIn, store} from './services/AuthSlice';
+import {isLoggedIn, store} from './services/ExchangeState';
 import React from "react";
 
 

@@ -1,9 +1,9 @@
 import React,{useState} from "react";
 import { Form, Input, Button, Typography } from 'antd';
-import {login} from "../../services/WebService";
+import {login, setSessionId} from "../../services/WebService";
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setLogin } from "../../services/AuthSlice";
+import { setLogin } from "../../services/ExchangeState";
 const { Title } = Typography;
 
 export default function LoginScreen(){
@@ -15,9 +15,10 @@ export default function LoginScreen(){
 
     const handleLogin = () => {
         login(username,password)
-            .then(() => {
+            .then((response) => {
                 setFailedAuth(false);
-                dispatch(setLogin());
+                setSessionId(response.headers["x-auth-token"]);
+                dispatch(setLogin(response.headers["x-auth-token"]));
                 history.push('/dash');
             })
             .catch(() => {
